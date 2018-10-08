@@ -1,27 +1,5 @@
 {% extends "base.html" %}
 
-{% block 标题 %}
-	数据下载
-{% endblock 标题 %}
-
 {% block 下载高亮 %}
-	active
+    active
 {% endblock 下载高亮 %}
-
- {% block 主体 %}
-	<div class="jumbotron" style="text-align: left">
-		<h1>Download</h1><br>
-        <form action="#" method="post">
-            {% csrf_token %}
-            <div class="input-group input-group-lg">
-                <input type="text" class="form-control" name="filedate" placeholder="{{ input_info }}" >
-                <span class="input-group-btn">
-                     <button class="btn btn-default" type="submit" name="download">
-                         <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
-                     </button>
-                </span>
-            </div><!-- /input-group -->
-        </form><br>
-        <span class="label label-success"><a href="{% url 'download' %}" style="color: white">搜索格式说明</a></span>
-    </div>
- {% endblock 主体 %}

@@ -5,18 +5,114 @@ import datetime
 import pymysql
 import json
 
-# Create your views here.
+
 def home(request):
-    timeline, ah_value, nh_value = find(
-        r"SELECT create_data,receive_msg FROM gprs_receive WHERE create_data LIKE '%:00'")
-    current_time = datetime.date.today()
-    min_ah = min(ah_value)
-    max_ah = max(ah_value)
-    min_nh = min(nh_value)
-    max_nh = max(nh_value)
+    timeline, ah_value, nh_value = [],[],[]
+    min_ah,min_nh,max_ah,max_nh = [],[],[],[]
     if request.POST:
         filedate = request.POST['filedate']
+        if filedate == '':
+            return render(request, 'home.html',
+                          {
+                              'input_warning':'alert alert-danger alert-dismissible',
+                              'close_button':'X',
+                              'information':'错误！未输入数据所在日期。',
+                              'timeline': json.dumps(timeline),
+                              'ah_value': json.dumps(ah_value),
+                              'nh_value': json.dumps(nh_value),
+                              'min_ah': json.dumps(min_ah),
+                              'max_ah': json.dumps(max_ah),
+                              'min_nh': json.dumps(min_nh),
+                              'max_nh': json.dumps(max_nh),
+                              'current_time': str(datetime.date.today()),
+                          }
+                          )
+        timeline, ah_value, nh_value = find(
+                r"SELECT create_data,receive_msg FROM gprs_receive WHERE create_data LIKE '"+filedate+r"%:00'")
+        if len(timeline) == 0:
+            return render(request, 'home.html',
+                          {
+                              'input_warning':'alert alert-danger alert-dismissible',
+                              'close_button':'X',
+                              'information':'错误！未检索到日期或输入日期格式错误。',
+                              'timeline': json.dumps(timeline),
+                              'ah_value': json.dumps(ah_value),
+                              'nh_value': json.dumps(nh_value),
+                              'min_ah': json.dumps(min_ah),
+                              'max_ah': json.dumps(max_ah),
+                              'min_nh': json.dumps(min_nh),
+                              'max_nh': json.dumps(max_nh),
+                              'current_time': str(datetime.date.today()),
+                          }
+                          )
+        if len(timeline) != 0:
+            min_ah = min(ah_value)
+            max_ah = max(ah_value)
+            min_nh = min(nh_value)
+            max_nh = max(nh_value)
+            return render(request, 'home.html',
+                              {
+                                  'timeline': json.dumps(timeline),
+                                  'ah_value': json.dumps(ah_value),
+                                  'nh_value': json.dumps(nh_value),
+                                  'min_ah': json.dumps(min_ah),
+                                  'max_ah': json.dumps(max_ah),
+                                  'min_nh': json.dumps(min_nh),
+                                  'max_nh': json.dumps(max_nh),
+                                  'current_time': str(datetime.date.today()),
+                              }
+                          )
     return render(request, 'home.html',
+                  {
+                      'timeline': json.dumps(timeline),
+                      'ah_value': json.dumps(ah_value),
+                      'nh_value': json.dumps(nh_value),
+                      'min_ah': json.dumps(min_ah),
+                      'max_ah': json.dumps(max_ah),
+                      'min_nh': json.dumps(min_nh),
+                      'max_nh': json.dumps(max_nh),
+                      'current_time': str(datetime.date.today()),
+                  }
+                  )
+# Create your views here.
+# def home(request):
+#     timeline, ah_value, nh_value = find(
+#         r"SELECT create_data,receive_msg FROM gprs_receive WHERE create_data LIKE '%:00'")
+#     current_time = datetime.date.today()
+#     min_ah = min(ah_value)
+#     max_ah = max(ah_value)
+#     min_nh = min(nh_value)
+#     max_nh = max(nh_value)
+#     if request.POST:
+#         filedate = request.POST['filedate']
+#     return render(request, 'home.html',
+#                       {
+#                           'current_time':str(current_time),
+#                           'timeline':json.dumps(timeline),
+#                           'ah_value':json.dumps(ah_value),
+#                           'nh_value':json.dumps(nh_value),
+#                           'min_ah':json.dumps(min_ah),
+#                           'max_ah':json.dumps(max_ah),
+#                           'min_nh':json.dumps(min_nh),
+#                           'max_nh':json.dumps(max_nh),
+#                       }
+#                   )
+
+def data(request):
+    # if request.POST:
+    #     filedate = request.POST['filedate']
+    timeline, ah_value, nh_value = find(
+            r"SELECT create_data,receive_msg FROM gprs_receive WHERE create_data LIKE 'fwa'")
+    current_time = datetime.date.today()
+    # min_ah = min(ah_value)
+    # max_ah = max(ah_value)
+    # min_nh = min(nh_value)
+    # max_nh = max(nh_value)
+    min_ah = 0
+    max_ah = 0
+    min_nh = 0
+    max_nh = 0
+    return render(request, 'data.html',
                       {
                           'current_time':str(current_time),
                           'timeline':json.dumps(timeline),
@@ -31,6 +127,9 @@ def home(request):
 
 
 def download(request):
+    return render(request, 'download.html')
+
+def d2ownload(request):
     '''数据下载'''
     timeline, ah_value, nh_value = [],[],[]
     filedate = None
@@ -78,12 +177,7 @@ def download(request):
                   )
 
 
-def descriprion(request):
-    return render(request,'description.html')
-
-
 def find(commond):
-    '''根据命令查询相关字段'''
     db = pymysql.connect('123.207.7.51', 'root', 'root', 'lsq_gprs')  # 连接对象
     cursor = db.cursor()  # 游标对象
     cursor.execute(commond)

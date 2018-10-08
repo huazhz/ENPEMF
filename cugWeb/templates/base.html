@@ -10,7 +10,7 @@
     {% load staticfiles %}
     <link rel="icon" href="{% static 'image/cug.ico' %}">
 
-    <title>{% block 标题 %}{% endblock 标题 %}</title>
+    <title>CUG-ENPEMF信号监测网站</title>
 
     <!-- Bootstrap core CSS -->
     {% load staticfiles %} 
@@ -36,8 +36,8 @@
       <div class="header clearfix">
         <nav>
           <ul class="nav nav-pills pull-right">
-                <li role="presentation" class="{% block 首页高亮 %}{% endblock 首页高亮 %}"><a href="{% url 'home' %}"><b>首页</b></a></li>
-                <li role="presentation" class="{% block 下载高亮 %}{% endblock 下载高亮 %}"><a href="{% url 'download' %}"><b>数据下载</b></a></li>
+                <li role="presentation" class="{% block 首页高亮 %}{% endblock 首页高亮 %}"><a href="{% url 'home' %}"><b>Home</b></a></li>
+                <li role="presentation" class="{% block 下载高亮 %}{% endblock 下载高亮 %}"><a href="{% url 'download' %}"><b>Download</b></a></li>
           </ul>
         </nav>
         <h3 class="text-muted">中国地质大学（武汉）ENPEMF信号监测网站</h3>
