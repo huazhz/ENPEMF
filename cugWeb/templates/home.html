@@ -11,7 +11,7 @@
         <form action="#" method="post">
             {% csrf_token %}
             <div class="input-group input-group-lg">
-                <input type="text" class="form-control" name="filedate" placeholder="请输入需可视化的数据所在日期（例如：2016-06-07）" >
+                <input onkeyup="value=value.replace(/[\u4e00-\u9fa5]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[\u4e00-\u9fa5]/g,''))" type="text" class="form-control" name="filedate" placeholder="请输入需可视化的数据所在日期（例如：2016-06-07）" >
                 <span class="input-group-btn">
                      <button class="btn btn-default" type="submit" name="search">
                          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -27,7 +27,6 @@
         <p><span class="label label-danger">关于搜索：</span></p>
         <span class="label label-info">检索数据间隔为1分钟。例如：2016-06-07 09:12:00，即秒位均为0。</span>
         <span class="label label-success">支持模糊搜索。例如：2018（检索2018年所有数据）、2018-06（检索2018年6月所有数据）。</span>
-{#        <span class="label label-success"><a href="{% url 'download' %}" style="color: white">搜索格式说明</a></span>#}
     </div>
     <hr/><br>
     <h1>热力图示</h1><br><br>

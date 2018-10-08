@@ -3,3 +3,29 @@
 {% block 下载高亮 %}
     active
 {% endblock 下载高亮 %}
+
+{% block 主体 %}
+    <div class="jumbotron" style="text-align: left">
+        <h1>Hello</h1><br>
+        <p>今天是：<b>{{ current_time }}</b></p><br>
+        <form action="#" method="post">
+            {% csrf_token %}
+            <div class="input-group input-group-lg">
+                <input onkeyup="value=value.replace(/[\u4e00-\u9fa5]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[\u4e00-\u9fa5]/g,''))" type="text" class="form-control" name="filedate" placeholder="请输入需要下载的数据所在日期（例如：2016-06-07）" >
+                <span class="input-group-btn">
+                     <button class="btn btn-default" type="submit" name="search">
+                         <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+                     </button>
+                </span>
+            </div><!-- /input-group -->
+        </form>
+        <div class="{{ input_warning }}" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">{{ close_button }}</span></button>
+          <strong>{{ information }}</strong>
+        </div>
+        <br><br>
+        <p><span class="label label-danger">关于下载：</span></p>
+        <span class="label label-info">下载数据文件为真实数据文件，即为秒为间隔。</span>
+        <span class="label label-success">支持模糊搜索下载。例如：2018（检索2018年所有数据）、2018-06（检索2018年6月所有数据）。</span>
+    </div>
+{% endblock 主体 %}
