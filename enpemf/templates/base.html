@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>中国地质大学（武汉）ENPEMF信号检测网站</title>
+
+    {% load staticfiles %}
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    {% load staticfiles %}
+    <link rel="icon" href="{% static 'image/cug.ico' %}">
+
+    {% load staticfiles %}
+    <link href="{% static 'bootstrap/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet" media="screen">
+
+    {% load staticfiles %}
+    <script src="{% static 'lib/echarts.min.js' %}"></script>
+
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container" >
+    {#        导航栏#}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="navbar-header">
+                        <b><a class="navbar-brand">中国地质大学（武汉）ENPEMF信号检测网站</a></b>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="{% block home高亮 %}{% endblock home高亮 %}"><a href="{% url 'index' %}">
+                                <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;&nbsp;<b>Home</b>
+                            </a></li>
+                            <li class="{% block download高亮 %}{% endblock download高亮 %}"><a href="{% url 'download' %}">
+                                <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp;&nbsp;<b>Download</b>
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jumbotron">
+                    <div class="container">
+                        <div row>
+                            <div class="col-md-6">
+                        <h1><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> {{ current_time }}</h1><br><br><br><br>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <img src="{% static 'image/cug.png' %}" class="img-circle">
+                            </div>
+                        </div>
+                        <div class="container" style="padding-left: 0">
+                            <form action="#" method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-2" style="padding-right: 0">
+                                        <h2 style="margin-top: 3.9px">{{ form_label }}<b>：</b></h2>
+                                    </div>
+                                        <div class="col-md-3" style="padding-left: 0">
+                                                <div class="input-group input-group-lg date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                                    <input class="form-control" name="file_date" size="16" type="text" value="" readonly>
+                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                </div>
+                                        </div>
+                                </div><br><br>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                                <button type="submit" class="btn btn-success btn-lg" style="font-size: 23px" data-toggle="tooltip" data-placement="right" title="{{ button_information }}">
+                                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;{{ button_label }}
+                                                </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% block 主体 %}
+
+{% endblock 主体 %}
+    </div>
+
+{#    引入jquery.js文件#}
+    {% load staticfiles %}
+    <script src="{% static 'lib/jquery-3.3.1.min.js' %}"></script>
+{#    引入boostrap.js文件#}
+    {% load staticfiles %}
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+{#    引入boostrap日期选择器js文件#}
+    {% load staticfiles %}
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap-datetimepicker.min.js' %}" charset="UTF-8"></script>
+{#    引入日期选择器汉化js文件#}
+    {% load staticfiles %}
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap-datetimepicker.zh-CN.js' %}" charset="UTF-8"></script>
+    <script type="text/javascript">
+{#日期选择脚本#}
+        $('.form_date').datetimepicker({
+            language:  'zh-CN',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+{#鼠标悬停提示#}
+        $(function () { $("[data-toggle='tooltip']").tooltip(); });
+    </script>
+</body>
+</html>
