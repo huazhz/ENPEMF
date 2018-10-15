@@ -175,7 +175,7 @@
                             },
                             grid: {containLabel: true},
                             title: {
-                                text: 'AH'
+                                text: 'NH'
                             },
                             tooltip: {
                                 position: 'top'
@@ -281,30 +281,540 @@
     </div>
     <hr><br>
     <div class="row">
-        <div class="col-md-1">
-            <h1><span class="label label-warning">3D柱状图</span></h1>
+        <div class="col-md-12">
+            <h1><span class="label label-warning" data-toggle="tooltip" data-placement="right" title="坐标备注：一（0，4）、二（2，4）、三（4，4）、四（0，2）、五（2，2）、六（4，2）、七（0，0）、八（2，0）、九（4，0）">3D柱状图</span></h1>
         </div>
     </div><br><br><br>
     <div class="row">
+{#        3D柱状图ah#}
         <div class="col-md-6">
-            <h2>AH</h2>
+            <div id="ah_3d" style="width: 100%;height:500px;">
+                <script type="text/javascript">
+                // 基于准备好的dom，初始化echarts实例
+                var ah_3d = echarts.init(document.getElementById('ah_3d'));
+
+                    var x = [];
+                    var y = [];
+                    for(var i = 0; i <= 4; i ++)
+                    {
+                        x[i] = i;
+                        y[i] = i;
+                    }
+
+
+                    var data = [];
+
+                    data = data.map(function (item) {
+                        return {
+                            value: [item[1], item[0], item[2]],
+                        }
+                    });
+
+                    var option = {
+                        baseOption: {
+                            timeline:{
+                                label:false,
+                                axisType: 'category',
+                                show: true,
+                                autoPlay: false,
+                                playInterval: 1000,
+                                top:'40',
+                                data: {{ timeline|safe }}
+
+
+                            },
+                            grid: {containLabel: true},
+                            title: {
+                                text: 'AH'
+                            },
+                            tooltip: {
+                                position: 'top'
+                             },
+                            toolbox: {
+                                feature: {
+                                    saveAsImage: {}
+                                }
+                            },
+                            animation: false,
+
+                            xAxis3D: {
+                                type: 'category',
+                                data: x
+                            },
+                            yAxis3D: {
+                                type: 'category',
+                                data: y
+                            },
+                            zAxis3D: {
+                                type: 'value'
+                            },
+                            grid3D: {
+                                boxWidth: 200,
+                                boxDepth: 200,
+                                viewControl: {
+                                    zoomSensitivity:5,
+                                    // projection: 'orthographic'
+                                    distance: 340
+                                },
+                                light: {
+                                    main: {
+                                        intensity: 1.2,
+                                        shadow: true
+                                    },
+                                    ambient: {
+                                        intensity: 0.3
+                                    }
+                                }
+                            },
+                            series: [
+                            {
+                                name: 'AH',
+                                type: 'bar3D',
+                                shading: 'lambert',
+
+                                label: {
+                                    textStyle: {
+                                        fontSize: 16,
+                                        borderWidth: 1
+                                    }
+                                },
+
+                                emphasis: {
+                                    label: {
+                                        textStyle: {
+                                            fontSize: 20,
+                                            color: '#900'
+                                        }
+                                    },
+                                    itemStyle: {
+                                        color: '#900'
+                                    }
+                                }
+                            }],
+                        },
+                        options:[]
+                    };
+                    var timeline = {{ timeline|safe }}
+                    var ah_value = {{ ah_value|safe }}
+                    for(var n = 0; n < timeline.length; n ++)
+                    {
+                        option.options.push(
+                            {
+                                visualMap: {
+                                    show: false,
+                                    min: {{ min_ah|safe }},
+                                    max: {{ max_ah|safe }},
+                                    left: 'left',
+                                    top: 'center',
+                                    inRange: {
+                                        color: [
+                                            '#5DADE2',
+                                            '#DC143C'
+                                        ]
+                                    }
+                                 },
+                                title:{
+                                    text: timeline[n]+" （AH）"
+                                },
+                                series:[
+                                    {
+                                        data:[
+                                            [0, 4, ah_value[0][n]],
+                                            [1, 4, (ah_value[0][n]+ah_value[1][n])/2],
+                                            [2, 4, ah_value[1][n]],
+                                            [3, 4, (ah_value[1][n]+ah_value[2][n])/2],
+                                            [4, 4, ah_value[2][n]],
+                                            [0, 3, (ah_value[0][n]+ah_value[3][n])/2],
+                                            [1, 3, (ah_value[0][n]+ah_value[1][n]+ah_value[3][n]+ah_value[4][n])/4],
+                                            [2, 3, (ah_value[1][n]+ah_value[4][n])/2],
+                                            [3, 3, (ah_value[1][n]+ah_value[2][n]+ah_value[4][n]+ah_value[5][n])/4],
+                                            [4, 3, (ah_value[2][n]+ah_value[5][n])/2],
+                                            [0, 2, ah_value[3][n]],
+                                            [1, 2, (ah_value[3][n]+ah_value[4][n])/2],
+                                            [2, 2, ah_value[4][n]],
+                                            [3, 2, (ah_value[4][n]+ah_value[5][n])/2],
+                                            [4, 2, ah_value[5][n]],
+                                            [0, 1, (ah_value[3][n]+ah_value[6][n])/2],
+                                            [1, 1, (ah_value[3][n]+ah_value[4][n]+ah_value[6][n]+ah_value[7][n])/4],
+                                            [2, 1, (ah_value[4][n]+ah_value[7][n])/2],
+                                            [3, 1, (ah_value[4][n]+ah_value[5][n]+ah_value[7][n]+ah_value[8][n])/4],
+                                            [4, 1, (ah_value[5][n]+ah_value[8][n])/2],
+                                            [0, 0, ah_value[6][n]],
+                                            [1, 0, (ah_value[6][n]+ah_value[7][n])/2],
+                                            [2, 0, ah_value[7][n]],
+                                            [3, 0, (ah_value[7][n]+ah_value[8][n])/2],
+                                            [4, 0, ah_value[8][n]],
+                                        ]
+                                    },
+                                ]
+                            },
+                        );
+                    }
+                    // 使用刚指定的配置项和数据显示图表。
+                    ah_3d.setOption(option);
+                </script>
+            </div>
         </div>
+{#        3D柱状图nh#}
         <div class="col-md-6">
-            <h2>NH</h2>
+            <div id="nh_3d" style="width: 100%;height:500px;">
+                <script type="text/javascript">
+                // 基于准备好的dom，初始化echarts实例
+                var nh_3d = echarts.init(document.getElementById('nh_3d'));
+
+                    var x = [];
+                    var y = [];
+                    for(var i = 0; i <= 4; i ++)
+                    {
+                        x[i] = i;
+                        y[i] = i;
+                    }
+
+
+                    var data = [];
+
+                    data = data.map(function (item) {
+                        return {
+                            value: [item[1], item[0], item[2]],
+                        }
+                    });
+
+                    var option = {
+                        baseOption: {
+                            timeline:{
+                                label:false,
+                                axisType: 'category',
+                                show: true,
+                                autoPlay: false,
+                                playInterval: 1000,
+                                top:'40',
+                                data: {{ timeline|safe }}
+
+
+                            },
+                            grid: {containLabel: true},
+                            title: {
+                                text: 'NH'
+                            },
+                            tooltip: {
+                                position: 'top'
+                             },
+                            toolbox: {
+                                feature: {
+                                    saveAsImage: {}
+                                }
+                            },
+                            animation: false,
+
+                            xAxis3D: {
+                                type: 'category',
+                                data: x
+                            },
+                            yAxis3D: {
+                                type: 'category',
+                                data: y
+                            },
+                            zAxis3D: {
+                                type: 'value'
+                            },
+                            grid3D: {
+                                boxWidth: 200,
+                                boxDepth: 200,
+                                viewControl: {
+                                    zoomSensitivity:5,
+                                    // projection: 'orthographic'
+                                    distance: 340
+                                },
+                                light: {
+                                    main: {
+                                        intensity: 1.2,
+                                        shadow: true
+                                    },
+                                    ambient: {
+                                        intensity: 0.3
+                                    }
+                                }
+                            },
+                            series: [
+                            {
+                                name: 'NH',
+                                type: 'bar3D',
+                                shading: 'lambert',
+
+                                label: {
+                                    textStyle: {
+                                        fontSize: 16,
+                                        borderWidth: 1
+                                    }
+                                },
+
+                                emphasis: {
+                                    label: {
+                                        textStyle: {
+                                            fontSize: 20,
+                                            color: '#900'
+                                        }
+                                    },
+                                    itemStyle: {
+                                        color: '#900'
+                                    }
+                                }
+                            }],
+                        },
+                        options:[]
+                    };
+                    var timeline = {{ timeline|safe }}
+                    var nh_value = {{ nh_value|safe }}
+                    for(var n = 0; n < timeline.length; n ++)
+                    {
+                        option.options.push(
+                            {
+                                visualMap: {
+                                    show: false,
+                                    min: {{ min_ah|safe }},
+                                    max: {{ max_ah|safe }},
+                                    left: 'left',
+                                    top: 'center',
+                                    inRange: {
+                                        color: [
+                                            '#5DADE2',
+                                            '#DC143C'
+                                        ]
+                                    }
+                                 },
+                                title:{
+                                    text: timeline[n]+" （NH）"
+                                },
+                                series:[
+                                    {
+                                        data:[
+                                            [0, 4, nh_value[0][n]],
+                                            [1, 4, (nh_value[0][n]+nh_value[1][n])/2],
+                                            [2, 4, nh_value[1][n]],
+                                            [3, 4, (nh_value[1][n]+nh_value[2][n])/2],
+                                            [4, 4, nh_value[2][n]],
+                                            [0, 3, (nh_value[0][n]+nh_value[3][n])/2],
+                                            [1, 3, (nh_value[0][n]+nh_value[1][n]+nh_value[3][n]+nh_value[4][n])/4],
+                                            [2, 3, (nh_value[1][n]+nh_value[4][n])/2],
+                                            [3, 3, (nh_value[1][n]+nh_value[2][n]+nh_value[4][n]+nh_value[5][n])/4],
+                                            [4, 3, (nh_value[2][n]+nh_value[5][n])/2],
+                                            [0, 2, nh_value[3][n]],
+                                            [1, 2, (nh_value[3][n]+nh_value[4][n])/2],
+                                            [2, 2, nh_value[4][n]],
+                                            [3, 2, (nh_value[4][n]+nh_value[5][n])/2],
+                                            [4, 2, nh_value[5][n]],
+                                            [0, 1, (nh_value[3][n]+nh_value[6][n])/2],
+                                            [1, 1, (nh_value[3][n]+nh_value[4][n]+nh_value[6][n]+nh_value[7][n])/4],
+                                            [2, 1, (nh_value[4][n]+nh_value[7][n])/2],
+                                            [3, 1, (nh_value[4][n]+nh_value[5][n]+nh_value[7][n]+nh_value[8][n])/4],
+                                            [4, 1, (nh_value[5][n]+nh_value[8][n])/2],
+                                            [0, 0, nh_value[6][n]],
+                                            [1, 0, (nh_value[6][n]+nh_value[7][n])/2],
+                                            [2, 0, nh_value[7][n]],
+                                            [3, 0, (nh_value[7][n]+nh_value[8][n])/2],
+                                            [4, 0, nh_value[8][n]],
+                                        ]
+                                    },
+                                ]
+                            },
+                        );
+                    }
+                    // 使用刚指定的配置项和数据显示图表。
+                    nh_3d.setOption(option);
+                </script>
+            </div>
         </div>
     </div>
     <hr><br>
     <div class="row">
-        <div class="col-md-1">
+        <div class="col-md-12">
             <h1><span class="label label-primary">折线图</span></h1>
         </div>
     </div><br><br><br>
+{#          折线图ah#}
     <div class="row">
-        <div class="col-md-6">
-            <h2>AH</h2>
+        <div class="col-md-12">
+            <div id="ah_line" style="width: 100%;height:500px;">
+            <script type="text/javascript">
+
+                var ah_line = echarts.init(document.getElementById('ah_line'));
+
+                var timeline = {{ timeline|safe }}
+                var ah_value = {{ ah_value|safe }}
+
+                option = {
+                    title: {
+                        text: 'AH'
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:['一','二','三','四','五','六','七','八','九']
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        }
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: timeline
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [
+                        {
+                            name:'一',
+                            type:'line',
+                            data:ah_value[0]
+                        },
+                        {
+                            name:'二',
+                            type:'line',
+                            data:ah_value[1]
+                        },
+                        {
+                            name:'三',
+                            type:'line',
+                            data:ah_value[2]
+                        },
+                        {
+                            name:'四',
+                            type:'line',
+                            data:ah_value[3]
+                        },
+                        {
+                            name:'五',
+                            type:'line',
+                            data:ah_value[4]
+                        },
+                        {
+                            name:'六',
+                            type:'line',
+                            data:ah_value[5]
+                        },
+                        {
+                            name:'七',
+                            type:'line',
+                            data:ah_value[6]
+                        },
+                        {
+                            name:'八',
+                            type:'line',
+                            data:ah_value[7]
+                        },
+                        {
+                            name:'九',
+                            type:'line',
+                            data:ah_value[8]
+                        }
+                    ]
+                };
+                ah_line.setOption(option);
+                </script>
+            </div>
         </div>
-        <div class="col-md-6">
-            <h2>NH</h2>
+    </div><br><br><br><br>
+{#          折线图h#}
+    <div class="row">
+        <div class="col-md-12">
+            <div id="nh_line" style="width: 100%;height:500px;">
+            <script type="text/javascript">
+
+                var nh_line = echarts.init(document.getElementById('nh_line'));
+
+                var timeline = {{ timeline|safe }}
+                var nh_value = {{ nh_value|safe }}
+
+                option = {
+                    title: {
+                        text: 'NH'
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:['一','二','三','四','五','六','七','八','九']
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        }
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: timeline
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [
+                        {
+                            name:'一',
+                            type:'line',
+                            data:nh_value[0]
+                        },
+                        {
+                            name:'二',
+                            type:'line',
+                            data:nh_value[1]
+                        },
+                        {
+                            name:'三',
+                            type:'line',
+                            data:nh_value[2]
+                        },
+                        {
+                            name:'四',
+                            type:'line',
+                            data:nh_value[3]
+                        },
+                        {
+                            name:'五',
+                            type:'line',
+                            data:nh_value[4]
+                        },
+                        {
+                            name:'六',
+                            type:'line',
+                            data:nh_value[5]
+                        },
+                        {
+                            name:'七',
+                            type:'line',
+                            data:nh_value[6]
+                        },
+                        {
+                            name:'八',
+                            type:'line',
+                            data:nh_value[7]
+                        },
+                        {
+                            name:'九',
+                            type:'line',
+                            data:nh_value[8]
+                        }
+                    ]
+                };
+                nh_line.setOption(option);
+                </script>
+            </div>
         </div>
     </div>
 {% endblock 主体 %}

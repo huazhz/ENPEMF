@@ -19,24 +19,32 @@ def index(request):
 
     timeline = []
 
-    # for x in range(0, 90):
-    #     timeline.append(x)
-    #
-    # value = [[],[],[],[],[],[],[],[],[]]
-    # for x in value:
-    #     for j in range(0, 9):
-    #         for k in range(0, 10):
-    #             value[j].append(random.randint(0,100))
-    #     ah_value.append(x)
-    #     nh_value.append(x)
-    #
-    # min_temp = []
-    # max_temp = []
-    # for x in ah_value:
-    #     min_temp.append(min(x))
-    #     max_temp.append(max(x))
-    # min_ah = min(min_temp)
-    # max_ah = max(max_temp)
+    for x in range(0, 90):
+        timeline.append(x)
+
+    value = [[],[],[],[],[],[],[],[],[]]
+    for x in value:
+        for j in range(0, 9):
+            for k in range(0, 10):
+                value[j].append(random.randint(0, j))
+        ah_value.append(x)
+        nh_value.append(x)
+
+    min_temp = []
+    max_temp = []
+    for x in ah_value:
+        min_temp.append(min(x))
+        max_temp.append(max(x))
+    min_ah = min(min_temp)
+    max_ah = max(max_temp)
+
+    min_temp = []
+    max_temp = []
+    for x in nh_value:
+        min_temp.append(min(x))
+        max_temp.append(max(x))
+    min_nh = min(min_temp)
+    max_nh = max(max_temp)
 
     return render(request, 'index.html',
                   {
